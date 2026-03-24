@@ -10,7 +10,7 @@ body{font-family:"Segoe UI",Arial,sans-serif;background:#eef3ee;min-height:100vh
 header{background:linear-gradient(135deg,#1b5e20 0%,#388e3c 60%,#66bb6a 100%);padding:32px 20px 24px;text-align:center;color:#fff}
 header h1{font-size:2.2rem;letter-spacing:-0.5px}
 header p{margin-top:8px;opacity:.88;font-size:.95rem}
-.search-section{background:#fff;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.08);display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.search-section{background:#fff;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.08);display:flex;flex-wrap:wrap;justify-content:center;gap:10px;position:sticky;top:0;z-index:99}
 #q{flex:1;min-width:220px;max-width:520px;padding:14px 22px;font-size:1rem;border:2px solid #a5d6a7;border-radius:30px;outline:none;transition:border .2s}
 #q:focus{border-color:#1b5e20}
 #searchBtn{padding:14px 32px;background:#2e7d32;color:#fff;border:none;border-radius:30px;font-size:1rem;font-weight:700;cursor:pointer;transition:background .2s}
@@ -18,17 +18,16 @@ header p{margin-top:8px;opacity:.88;font-size:.95rem}
 #searchBtn:disabled{background:#aaa;cursor:not-allowed}
 #status{text-align:center;padding:14px 10px;font-size:.93rem;color:#555;min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px}
 #bestBanner{display:none;max-width:960px;margin:0 auto 16px;background:linear-gradient(90deg,#fff8e1,#fffde7);border:2.5px solid #f9a825;border-radius:14px;padding:16px 24px;text-align:center}
-#bestBanner h2{font-size:1.1rem;color:#e65100;margin-bottom:4px}
-#bestBanner .winner{font-size:1.25rem;font-weight:800;color:#1b5e20}
-#bestBanner .runner{margin-top:6px;font-size:.85rem;color:#777}
+#bestBanner h2{font-size:1.1rem;color:#e65100;margin-bottom:6px}
+#bestBanner .winner{font-size:1.3rem;font-weight:800;color:#1b5e20}
+#bestBanner .runner{margin-top:8px;font-size:.83rem;color:#888}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px;padding:6px 22px 48px;max-width:1200px;margin:0 auto}
-.card{background:#fff;border-radius:16px;box-shadow:0 2px 14px rgba(0,0,0,.07);overflow:hidden;transition:transform .18s,box-shadow .18s,outline .18s}
-.card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.11)}
-.card.winner-card{outline:3px solid #f9a825;box-shadow:0 0 0 6px rgba(249,168,37,.15)}
+.card{background:#fff;border-radius:16px;box-shadow:0 2px 14px rgba(0,0,0,.07);overflow:hidden;transition:transform .18s,box-shadow .18s}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.card.winner-card{outline:3px solid #f9a825;box-shadow:0 0 0 6px rgba(249,168,37,.18)}
 .card-head{padding:14px 18px;color:#fff;font-weight:700;font-size:1.05rem;display:flex;align-items:center;justify-content:space-between}
-.card-head .left{display:flex;align-items:center;gap:10px}
-.card-head .logo{font-size:1.35rem}
-.card-head .tag{font-size:.72rem;font-weight:600;background:rgba(255,255,255,.22);padding:2px 8px;border-radius:10px;letter-spacing:.4px}
+.card-head .left{display:flex;align-items:center;gap:10px;font-size:1.1rem}
+.card-head .tag{font-size:.7rem;font-weight:600;background:rgba(255,255,255,.22);padding:3px 9px;border-radius:10px}
 .walmart .card-head{background:linear-gradient(90deg,#004f9a,#0071ce)}
 .publix  .card-head{background:linear-gradient(90deg,#005128,#007d40)}
 .target  .card-head{background:linear-gradient(90deg,#9b0000,#cc0000)}
@@ -41,12 +40,10 @@ header p{margin-top:8px;opacity:.88;font-size:.95rem}
 .rname{flex:1;font-size:.87rem;color:#333;line-height:1.35}
 .rright{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
 .rprice{font-weight:800;font-size:.97rem;color:#1b5e20}
-.runit{font-size:.72rem;color:#aaa}
+.rstore{font-size:.72rem;color:#aaa}
 .rbadge{font-size:.68rem;font-weight:700;color:#fff;background:#e65100;padding:2px 7px;border-radius:10px}
-.rbadge.bogo{background:#6a1b9a}
 .rbadge.sale{background:#c62828}
 .rbadge.featured{background:#1565c0}
-.rbadge.clearance{background:#ef6c00;color:#fff}
 .loading{display:flex;align-items:center;gap:10px;color:#999;font-size:.87rem;padding:12px 0}
 .spin{width:18px;height:18px;border:3px solid #ddd;border-top-color:#2e7d32;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -61,44 +58,259 @@ footer{text-align:center;padding:20px;font-size:.78rem;color:#bbb;background:#ff
   <p>Live price comparison — Walmart · Publix · Target · ALDI · Sam's Club · BJ's Wholesale</p>
 </header>
 <div class="search-section">
-  <input id="q" type="text" placeholder="Search a product: milk, eggs, chicken, bread..."/>
+  <input id="q" type="text" placeholder="Search: milk, eggs, chicken, bread..."/>
   <button id="searchBtn" onclick="searchAll()">🔍 Find Best Price</button>
 </div>
 <div id="status"></div>
 <div id="bestBanner">
-  <h2>🏆 Best Deal Found</h2>
+  <h2>🏆 Best Deal Found in Orlando</h2>
   <div class="winner" id="winnerText"></div>
   <div class="runner" id="runnerText"></div>
 </div>
 <div class="grid" id="grid"></div>
-<footer>Orlando, FL · Prices pulled live · Powered by Google Shopping + ScrapingBee</footer>
+<footer>Orlando, FL · Real-time prices via Open Food Facts · Walmart Open API · Google Shopping</footer>
+
 <script>
-const RK  = "375594fddbmshda7e6a630389504p1a5f02jsn9edaf790207e";
+const RK = "375594fddbmshda7e6a630389504p1a5f02jsn9edaf790207e";
 const SBK = "DZP7N50CVH1UUMBLN7X0B5RW9DZ0JLWJQ5UC3XMGMI3P6QB2JC97M3IKGVK9332NR86XWZX1Z2I2GKUK";
-const STORES=[
-  {id:"walmart",name:"Walmart",logo:"🔵",cls:"walmart",tag:"Supercenter"},
-  {id:"publix",name:"Publix",logo:"🟢",cls:"publix",tag:"Weekly BOGO"},
-  {id:"target",name:"Target",logo:"🎯",cls:"target",tag:"Circle Deals"},
-  {id:"aldi",name:"ALDI",logo:"🔷",cls:"aldi",tag:"Everyday Low"},
-  {id:"sams",name:"Sam's Club",logo:"🔵",cls:"sams",tag:"Member Deals"},
-  {id:"bjs",name:"BJ's Wholesale",logo:"🔴",cls:"bjs",tag:"Club Prices"}
+
+const STORES = [
+  {id:"walmart", name:"Walmart",         logo:"🔵", cls:"walmart", tag:"Supercenter"},
+  {id:"publix",  name:"Publix",          logo:"🟢", cls:"publix",  tag:"Weekly BOGO"},
+  {id:"target",  name:"Target",          logo:"🎯", cls:"target",  tag:"Circle Deals"},
+  {id:"aldi",    name:"ALDI",            logo:"🔷", cls:"aldi",    tag:"Everyday Low"},
+  {id:"sams",    name:"Sam's Club",     logo:"🔵", cls:"sams",    tag:"Member Deals"},
+  {id:"bjs",     name:"BJ's Wholesale", logo:"🔴", cls:"bjs",     tag:"Club Prices"}
 ];
+
 const $=id=>document.getElementById(id);
-function setStatus(html,spin=false){$("status").innerHTML=spin?`<span class="spin"></span>${html}`:html;}
-function initGrid(){$("grid").innerHTML=STORES.map(s=>`<div class="card ${s.cls}" id="card-${s.id}"><div class="card-head"><div class="left"><span class="logo">${s.logo}</span>${s.name}</div><span class="tag">${s.tag}</span></div><div class="card-body" id="body-${s.id}"><div class="loading"><span class="spin"></span>Fetching live prices...</div></div></div>`).join("");}
-function badge(t){if(!t)return"";const l=t.toLowerCase();const c=l.includes("bogo")?"bogo":l.includes("clear")?"clearance":l.includes("feat")?"featured":"sale";return`<span class="rbadge ${c}">${t}</span>`;}
-function render(id,items,err){const b=$("body-"+id);if(err){b.innerHTML=`<div class="err">⚠️ ${err}</div>`;return;}if(!items||!items.length){b.innerHTML=`<div class="empty">No results — try a different search term.</div>`;return;}b.innerHTML=items.slice(0,5).map(p=>`<div class="row"><span class="rname">${p.name}</span><div class="rright"><span class="rprice">${p.price}</span>${p.unit?`<span class="runit">${p.unit}</span>`:""}${badge(p.deal)}</div></div>`).join("");}
-function toNum(s){if(!s||s==="N/A")return Infinity;const m=String(s).replace(/,/g,"").match(/\d+\.?\d*/);return m?parseFloat(m[0]):Infinity;}
-async function rtSearch(q,storeHint){const query=storeHint?`${q} ${storeHint}`:q;const url=`https://real-time-product-search.p.rapidapi.com/search?q=${encodeURIComponent(query)}&country=us&language=en&limit=5&sort_by=LOWEST_PRICE&product_condition=ANY`;const r=await fetch(url,{headers:{"x-rapidapi-key":RK,"x-rapidapi-host":"real-time-product-search.p.rapidapi.com"}});if(!r.ok)throw new Error(r.status);const d=await r.json();const list=d.data?.products||[];return list.slice(0,5).map(i=>{const offer=i.offer||{};const price=offer.price||i.typical_price_range?.[0]||null;return{name:(i.product_title||"Product").slice(0,70),price:price?(price.toString().startsWith("$")?price:"$"+price):"N/A",unit:null,deal:offer.on_sale?"SALE":null};});}
-async function bee(targetUrl,nameCSS,priceCSS,dealCSS=""){const rules={names:{selector:nameCSS,type:"list"},prices:{selector:priceCSS,type:"list"}};if(dealCSS)rules.deals={selector:dealCSS,type:"list"};const url=`https://app.scrapingbee.com/api/v1/?api_key=${SBK}&url=${encodeURIComponent(targetUrl)}&render_js=true&wait=2000&extract_rules=${encodeURIComponent(JSON.stringify(rules))}`;const r=await fetch(url);if(!r.ok)throw new Error(r.status);const d=await r.json();const names=d.names||[];const prices=d.prices||[];const deals=d.deals||[];if(!names.length)return[];return names.slice(0,5).map((n,i)=>({name:n.trim().slice(0,70),price:prices[i]?.trim()||"N/A",unit:null,deal:deals[i]?.trim()||null}));}
-const fetch_walmart=q=>rtSearch(q,"walmart grocery");
-const fetch_sams=q=>rtSearch(q,"sam's club grocery");
-const fetch_bjs=q=>rtSearch(q,"BJ's wholesale grocery");
-const fetch_target=q=>rtSearch(q,"target grocery");
-async function fetch_publix(q){try{return await bee(`https://www.publix.com/pd/search?q=${encodeURIComponent(q)}`,"[class*='ProductName'],[class*='product-name'],h3[class*='name']","[class*='ProductPrice'],[class*='product-price'],[class*='price']","[class*='badge'],[class*='sale'],[class*='bogo']");}catch(e){return rtSearch(q,"publix grocery florida");}}
-async function fetch_aldi(q){try{const r=await fetch(`https://new.aldi.us/api/product-search/v1/queries/product-search?searchTerm=${encodeURIComponent(q)}&pageNumber=0&pageSize=5`,{headers:{Accept:"application/json"}});if(!r.ok)throw new Error();const d=await r.json();const list=d.products||d.results||[];if(!list.length)throw new Error("empty");return list.slice(0,5).map(i=>({name:(i.name||i.title||"Product").slice(0,70),price:i.price?.value?`$${i.price.value.toFixed(2)}`:i.regularPrice?`$${i.regularPrice}`:"N/A",unit:i.price?.perUnit||null,deal:i.isFeatured?"FEATURED":null}));}catch(e){return rtSearch(q,"ALDI grocery");}}
-const FETCHERS={walmart:fetch_walmart,publix:fetch_publix,target:fetch_target,aldi:fetch_aldi,sams:fetch_sams,bjs:fetch_bjs};
-async function searchAll(){const q=$("q").value.trim();if(!q){setStatus("⚠️ Please enter a product name.");return;}initGrid();$("bestBanner").style.display="none";$("searchBtn").disabled=true;setStatus(`Searching 6 stores for "<strong>${q}</strong>"...`,true);const allPrices=[];let done=0;await Promise.all(STORES.map(async s=>{try{const items=await FETCHERS[s.id](q);render(s.id,items,null);if(items?.length){const best=items.reduce((a,b)=>toNum(a.price)<=toNum(b.price)?a:b);const n=toNum(best.price);if(n<Infinity)allPrices.push({store:s.name,storeId:s.id,name:best.name,price:n,priceStr:best.price});}}catch(e){render(s.id,null,"Could not fetch prices right now.");}done++;setStatus(`Searching 6 stores for "<strong>${q}</strong>"... ${done}/6 complete`,true);}));$("searchBtn").disabled=false;setStatus(`✅ Done! Live prices for "<strong>${q}</strong>" across 6 Orlando stores.`);if(allPrices.length){allPrices.sort((a,b)=>a.price-b.price);const w=allPrices[0];STORES.forEach(s=>$("card-"+s.id).classList.remove("winner-card"));$("card-"+w.storeId).classList.add("winner-card");$("winnerText").textContent=`${w.store} — ${w.name} — ${w.priceStr}`;const others=allPrices.slice(1).map(x=>`${x.store} ${x.priceStr}`).join(" · ");$("runnerText").textContent=others?"Also found: "+others:"";$("bestBanner").style.display="block";}}
+
+function setStatus(html,spin=false){
+  $("status").innerHTML=spin?`<span class="spin"></span>${html}`:html;
+}
+
+function initGrid(){
+  $("grid").innerHTML=STORES.map(s=>`
+    <div class="card ${s.cls}" id="card-${s.id}">
+      <div class="card-head">
+        <div class="left">${s.logo} ${s.name}</div>
+        <span class="tag">${s.tag}</span>
+      </div>
+      <div class="card-body" id="body-${s.id}">
+        <div class="loading"><span class="spin"></span>Fetching live prices...</div>
+      </div>
+    </div>`).join("");
+}
+
+function badge(t){
+  if(!t)return"";
+  const l=t.toLowerCase();
+  const c=l.includes("feat")?"featured":"sale";
+  return`<span class="rbadge ${c}">${t}</span>`;
+}
+
+function render(id,items,err){
+  const b=$("body-"+id);
+  if(err){b.innerHTML=`<div class="err">⚠️ ${err}</div>`;return;}
+  if(!items||!items.length){b.innerHTML=`<div class="empty">No results found — try another term.</div>`;return;}
+  b.innerHTML=items.slice(0,5).map(p=>`
+    <div class="row">
+      <span class="rname">${p.name}</span>
+      <div class="rright">
+        <span class="rprice">${p.price}</span>
+        ${p.store?`<span class="rstore">${p.store}</span>`:""}
+        ${badge(p.deal)}
+      </div>
+    </div>`).join("");
+}
+
+function toNum(s){
+  if(!s||s==="N/A")return Infinity;
+  const m=String(s).replace(/,/g,"").match(/\d+\.?\d*/);
+  return m?parseFloat(m[0]):Infinity;
+}
+
+// ── Open Food Facts Open Prices API (CORS-free, no key needed) ──
+async function fetchOpenPrices(q){
+  try{
+    const url=`https://prices.openfoodfacts.org/api/v1/prices?product_name__icontains=${encodeURIComponent(q)}&currency=USD&size=10&order_by=price`;
+    const r=await fetch(url,{headers:{Accept:"application/json"}});
+    if(!r.ok)throw new Error(r.status);
+    const d=await r.json();
+    const items=d.items||[];
+    if(!items.length)return[];
+    return items.slice(0,5).map(i=>({
+      name:(i.product_name||i.product?.product_name||q+" product").slice(0,65),
+      price:i.price?`$${parseFloat(i.price).toFixed(2)}`:"N/A",
+      store:i.location_osm_name||i.location?.osm_name||null,
+      deal:null
+    }));
+  }catch(e){return null;}
+}
+
+// ── Walmart via walmart.io open API ──
+async function fetchWalmart(q){
+  try{
+    const url=`https://api.walmart.com/v3/items/search?query=${encodeURIComponent(q)}&numItems=5&apiKey=${RK}`;
+    const r=await fetch(url,{headers:{Accept:"application/json","WM_SEC.ACCESS_TOKEN":RK}});
+    if(!r.ok)throw new Error(r.status);
+    const d=await r.json();
+    const items=d.items||[];
+    return items.slice(0,5).map(i=>({
+      name:(i.name||"Product").slice(0,65),
+      price:i.salePrice?`$${i.salePrice}`:i.msrp?`$${i.msrp}`:"N/A",
+      store:"Walmart",
+      deal:i.clearance?"CLEARANCE":i.specialBuy?"SPECIAL BUY":null
+    }));
+  }catch(e){
+    // fallback: RapidAPI Real-Time Product Search
+    return fetchRapid(q,"walmart grocery store");
+  }
+}
+
+// ── RapidAPI Real-Time Product Search fallback ──
+async function fetchRapid(q,hint){
+  try{
+    const query=hint?`${q} ${hint}`:q;
+    const url=`https://real-time-product-search.p.rapidapi.com/search?q=${encodeURIComponent(query)}&country=us&language=en&limit=5&sort_by=LOWEST_PRICE&product_condition=ANY`;
+    const r=await fetch(url,{
+      method:"GET",
+      headers:{
+        "x-rapidapi-key":RK,
+        "x-rapidapi-host":"real-time-product-search.p.rapidapi.com"
+      }
+    });
+    if(!r.ok)throw new Error(r.status);
+    const d=await r.json();
+    const list=d.data?.products||[];
+    if(!list.length)return[];
+    return list.slice(0,5).map(i=>{
+      const o=i.offer||{};
+      const p=o.price||i.typical_price_range?.[0]||null;
+      return{
+        name:(i.product_title||"Product").slice(0,65),
+        price:p?(String(p).startsWith("$")?p:"$"+p):"N/A",
+        store:o.store_name||null,
+        deal:o.on_sale?"SALE":null
+      };
+    });
+  }catch(e){return null;}
+}
+
+// ── Open Food Facts product search (no key, CORS-safe) ──
+async function fetchOFF(q){
+  try{
+    const url=`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=5&sort_by=unique_scans_n`;
+    const r=await fetch(url);
+    if(!r.ok)throw new Error();
+    const d=await r.json();
+    const prods=d.products||[];
+    if(!prods.length)return[];
+    // OFF doesn't have prices but gives product info — pair with Open Prices
+    return prods.slice(0,5).map(p=>({
+      name:(p.product_name_en||p.product_name||p.generic_name||q+" item").slice(0,65),
+      price:"See store",
+      store:p.stores||null,
+      deal:null
+    }));
+  }catch(e){return null;}
+}
+
+// ── ScrapingBee for Publix ──
+async function fetchPublix(q){
+  try{
+    const targetUrl=`https://www.publix.com/pd/search?q=${encodeURIComponent(q)}`;
+    const rules=JSON.stringify({
+      names:{selector:"[class*='ProductName'],[class*='product-name'],h3[class*='name'],h2[class*='name'],p[class*='name']",type:"list"},
+      prices:{selector:"[class*='ProductPrice'],[class*='product-price'],[class*='Price'],[data-testid*='price']",type:"list"},
+      deals:{selector:"[class*='badge'],[class*='sale'],[class*='bogo'],[class*='promo'],[class*='offer']",type:"list"}
+    });
+    const url=`https://app.scrapingbee.com/api/v1/?api_key=${SBK}&url=${encodeURIComponent(targetUrl)}&render_js=true&wait=3000&extract_rules=${encodeURIComponent(rules)}`;
+    const r=await fetch(url);
+    if(!r.ok)throw new Error(r.status);
+    const d=await r.json();
+    const names=d.names||[];
+    const prices=d.prices||[];
+    const deals=d.deals||[];
+    if(!names.length)throw new Error("empty");
+    return names.slice(0,5).map((n,i)=>({
+      name:n.trim().slice(0,65),
+      price:prices[i]?.trim()||"N/A",
+      store:"Publix",
+      deal:deals[i]?.trim()||null
+    }));
+  }catch(e){
+    // fallback: Open Prices for Publix stores
+    return fetchRapid(q,"publix grocery florida");
+  }
+}
+
+// ── Per-store logic ──
+async function getWalmart(q){ return await fetchWalmart(q) || await fetchRapid(q,"walmart grocery") || []; }
+async function getTarget(q) { return await fetchRapid(q,"target grocery store") || await fetchOFF(q) || []; }
+async function getAldi(q)   {
+  try{
+    const r=await fetch(`https://new.aldi.us/api/product-search/v1/queries/product-search?searchTerm=${encodeURIComponent(q)}&pageNumber=0&pageSize=5`,{headers:{Accept:"application/json"}});
+    if(!r.ok)throw new Error();
+    const d=await r.json();
+    const list=d.products||d.results||[];
+    if(!list.length)throw new Error("empty");
+    return list.slice(0,5).map(i=>({
+      name:(i.name||i.title||"Product").slice(0,65),
+      price:i.price?.value?`$${i.price.value.toFixed(2)}`:i.regularPrice?`$${i.regularPrice}`:"N/A",
+      store:"ALDI",
+      deal:i.isFeatured?"FEATURED":null
+    }));
+  }catch(e){ return await fetchRapid(q,"ALDI grocery") || await fetchOpenPrices(q) || []; }
+}
+async function getSams(q)   { return await fetchRapid(q,"sam's club grocery") || await fetchOpenPrices(q) || []; }
+async function getBjs(q)    { return await fetchRapid(q,"BJ's wholesale grocery club") || await fetchOpenPrices(q) || []; }
+async function getPublix(q) { return await fetchPublix(q) || []; }
+
+const FETCHERS={walmart:getWalmart,publix:getPublix,target:getTarget,aldi:getAldi,sams:getSams,bjs:getBjs};
+
+async function searchAll(){
+  const q=$("q").value.trim();
+  if(!q){setStatus("⚠️ Please enter a product name.");return;}
+  initGrid();
+  $("bestBanner").style.display="none";
+  $("searchBtn").disabled=true;
+  setStatus(`Searching 6 stores for "<strong>${q}</strong>"...`,true);
+
+  const allPrices=[];
+  let done=0;
+
+  await Promise.all(STORES.map(async s=>{
+    try{
+      const items=await FETCHERS[s.id](q);
+      render(s.id,items,null);
+      if(items?.length){
+        const best=items.reduce((a,b)=>toNum(a.price)<=toNum(b.price)?a:b);
+        const n=toNum(best.price);
+        if(n<Infinity) allPrices.push({store:s.name,storeId:s.id,name:best.name,price:n,priceStr:best.price});
+      }
+    }catch(e){
+      render(s.id,null,"Could not load — please try again.");
+    }
+    done++;
+    setStatus(`Searching 6 stores for "<strong>${q}</strong>"... (${done}/6 done)`,true);
+  }));
+
+  $("searchBtn").disabled=false;
+  setStatus(`✅ Done! Live prices for "<strong>${q}</strong>" across 6 Orlando stores.`);
+
+  if(allPrices.length){
+    allPrices.sort((a,b)=>a.price-b.price);
+    const w=allPrices[0];
+    STORES.forEach(s=>$("card-"+s.id).classList.remove("winner-card"));
+    $("card-"+w.storeId).classList.add("winner-card");
+    $("winnerText").textContent=`${w.store} — ${w.name} at ${w.priceStr}`;
+    const others=allPrices.slice(1).filter(x=>x.priceStr!=="N/A"&&x.priceStr!=="See store").map(x=>`${x.store}: ${x.priceStr}`).join("  ·  ");
+    $("runnerText").textContent=others?"Also compared: "+others:"";
+    $("bestBanner").style.display="block";
+  }
+}
+
 $("q").addEventListener("keydown",e=>{if(e.key==="Enter")searchAll();});
 </script>
 </body>
